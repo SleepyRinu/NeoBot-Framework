@@ -1,0 +1,43 @@
+# NeoBot Framework Mod Configuration
+# 基于 NeoForge 的 Minecraft 机器人框架
+
+# 模组基本信息
+modId = "neobot"
+version = "${version}"
+displayName = "NeoBot Framework"
+authors = "NeoBot Team"
+description = '''
+A Minecraft bot framework based on NeoForge, inspired by Altoclef.
+
+Features:
+- Task-based bot behavior system
+- Flexible task chaining and execution
+- Event-driven architecture
+- Built-in trackers for entities, blocks, and items
+- Command execution system
+'''
+
+# Minecraft 和 NeoForge 版本要求
+# 1.21.1 版本
+[[mixins]]
+config = "neobot.mixins.json"
+
+# 依赖关系
+[[dependencies.neobot]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1,1.22)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.neobot]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1.77,)"
+ordering = "NONE"
+side = "BOTH"
+
+# 模组入口点配置 - NeoForge 1.21.1 格式
+[[entrypoints]]
+type = "main"
+value = "com.neobot.NeoBot"
