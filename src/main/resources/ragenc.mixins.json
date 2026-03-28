@@ -1,0 +1,17 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "com.ragenc.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "refmap": "ragenc.refmap.json",
+    "mixins": [
+        "PlayerMixin",
+        "ClientWorldMixin"
+    ],
+    "client": [
+        "MinecraftMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

@@ -6,4 +6,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'neobot-framework'
+rootProject.name = 'ragenc'

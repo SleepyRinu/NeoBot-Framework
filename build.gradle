@@ -5,10 +5,9 @@ plugins {
 }
 
 version = '1.0.0'
-group = 'com.neobot'
-
+group = 'com.ragenc'
 base {
-    archivesName = 'neobot-framework'
+    archivesName = 'ragenc'
 }
 
 // NeoForge 配置
@@ -21,7 +20,6 @@ java {
 
 // Gradle 配置
 gradle {
-    // 禁止不兼容的 Gradle 功能
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
@@ -29,60 +27,49 @@ gradle {
 
 minecraft {
     // NeoForge 版本映射
-    // 1.21.1 对应的 NeoForge 版本
     mappings {
         channel = 'official'
         version = '1.21.1'
     }
-    
-    // 访问转换器 - 允许访问私有成员
+
+    // 访问转换器
     accessTransformers {
         file('src/main/resources/META-INF/accesstransformer.cfg')
     }
 }
 
 dependencies {
-    // NeoForge 运行时 - 1.21.1 版本
     implementation "net.neoforged:neoforge:21.1.77"
-    
-    // 测试依赖
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-// 任务配置
 tasks.named('jar', Jar).configure {
     manifest {
         attributes([
-            'Specification-Title'     : 'NeoBot Framework',
-            'Specification-Vendor'    : 'NeoBot Team',
+            'Specification-Title'     : 'RageNC',
+            'Specification-Vendor'    : 'RageNC Team',
             'Specification-Version'   : '1',
             'Implementation-Title'    : project.name,
             'Implementation-Version'  : project.jar.archiveVersion.get(),
-            'Implementation-Vendor'   : 'NeoBot Team',
+            'Implementation-Vendor'   : 'RageNC Team',
             'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-            'Main-Class'              : 'com.neobot.NeoBot'
+            'Main-Class'              : 'com.ragenc.RageNC'
         ])
     }
-    
-    // 将依赖打包进 jar
     from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
     }
-    
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
-// Java 编译选项
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
     options.release = 21
-    
-    // 启用预览功能（如果需要）
-    // options.compilerArgs += ['--enable-preview']
 }
 
-// Javadoc 配置
 tasks.named('javadoc', Javadoc).configure {
     options {
         encoding = 'UTF-8'
@@ -93,66 +80,50 @@ tasks.named('javadoc', Javadoc).configure {
     }
 }
 
-// 测试配置
 tasks.named('test', Test).configure {
     useJUnitPlatform()
-    
-    // JVM 参数
-    jvmArgs += [
-        '--enable-preview',
-        '-Xmx2G'
-    ]
-    
-    // 测试输出
+    jvmArgs += ['--enable-preview', '-Xmx2G']
     testLogging {
         events 'passed', 'skipped', 'failed'
         showStandardStreams = true
     }
 }
 
-// 资源处理
 tasks.named('processResources', ProcessResources).configure {
     inputs.property('version', project.version)
     inputs.property('minecraft_version', '1.21.1')
-    
     filesMatching('META-INF/neoforge.mods.toml') {
-        expand version: project.version,
-               minecraft_version: '1.21.1'
+        expand version: project.version, minecraft_version: '1.21.1'
     }
 }
 
-// 发布配置
 publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
-            
             pom {
-                name = 'NeoBot Framework'
+                name = 'RageNC'
                 description = 'A Minecraft bot framework based on NeoForge, inspired by Altoclef'
-                url = 'https://github.com/neobot/neobot-framework'
-                
+                url = 'https://github.com/SleepyRinu/ragenc'
                 licenses {
                     license {
                         name = 'MIT License'
                         url = 'https://opensource.org/licenses/MIT'
                     }
                 }
-                
                 developers {
                     developer {
-                        id = 'neobot'
-                        name = 'NeoBot Team'
+                        id = 'ragenc'
+                        name = 'RageNC Team'
                     }
                 }
             }
         }
     }
-    
     repositories {
         maven {
             name = 'GitHubPackages'
-            url = uri('https://github.com/neobot/neobot-framework/packages')
+            url = uri('https://github.com/SleepyRinu/ragenc/packages')
             credentials {
                 username = project.findProperty('gpr.user') ?: System.getenv('GITHUB_ACTOR')
                 password = project.findProperty('gpr.token') ?: System.getenv('GITHUB_TOKEN')

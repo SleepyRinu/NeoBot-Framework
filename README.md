@@ -1,4 +1,4 @@
-# NeoBot Framework
+# RageNC
 
 基于 NeoForge 的 Minecraft 机器人框架，参考 Altoclef 的架构设计。
 
@@ -19,37 +19,37 @@
 ## 项目结构
 
 ```
-neobot-framework/
-├── src/main/java/com/neobot/
-│   ├── NeoBot.java              # 主入口
+ragenc/
+├── src/main/java/com/ragenc/
+│   ├── RageNC.java           # 主入口
 │   ├── core/
-│   │   ├── BotFramework.java    # 框架核心
-│   │   ├── TaskRunner.java      # 任务执行器
-│   │   ├── TrackerManager.java  # 追踪器管理
-│   │   ├── EventBus.java        # 事件总线
+│   │   ├── BotFramework.java # 框架核心
+│   │   ├── TaskRunner.java   # 任务执行器
+│   │   ├── TrackerManager.java # 追踪器管理
+│   │   ├── EventBus.java     # 事件总线
 │   │   └── CommandExecutor.java # 命令执行器
 │   ├── task/
-│   │   ├── Task.java            # 任务基类
-│   │   ├── TaskChain.java       # 任务链
-│   │   ├── TaskState.java       # 任务状态
-│   │   ├── TaskPriority.java    # 任务优先级
+│   │   ├── Task.java         # 任务基类
+│   │   ├── TaskChain.java    # 任务链
+│   │   ├── TaskState.java    # 任务状态
+│   │   ├── TaskPriority.java # 任务优先级
 │   │   └── impl/
-│   │       ├── MovementTask.java  # 移动任务
-│   │       ├── InteractTask.java  # 交互任务
-│   │       └── CombatTask.java    # 战斗任务
+│   │       ├── MovementTask.java # 移动任务
+│   │       ├── InteractTask.java # 交互任务
+│   │       └── CombatTask.java   # 战斗任务
 │   ├── behavior/
-│   │   └── BotBehavior.java     # 行为基类
+│   │   └── BotBehavior.java  # 行为基类
 │   ├── tracker/
-│   │   └── Tracker.java         # 追踪器基类
+│   │   └── Tracker.java      # 追踪器基类
 │   ├── event/
-│   │   ├── Event.java           # 事件基类
-│   │   ├── EventHandler.java    # 事件处理器
-│   │   └── impl/                # 事件实现
+│   │   ├── Event.java        # 事件基类
+│   │   ├── EventHandler.java # 事件处理器
+│   │   └── impl/             # 事件实现
 │   └── util/
-│       └── PositionUtils.java   # 位置工具
+│       └── PositionUtils.java # 位置工具
 └── src/main/resources/
     └── META-INF/
-        ├── neoforge.mods.toml   # 模组配置
+        ├── neoforge.mods.toml # 模组配置
         └── accesstransformer.cfg
 ```
 
@@ -116,7 +116,7 @@ public class MyTask extends Task {
     public MyTask() {
         super("my_task", TaskPriority.NORMAL);
     }
-    
+
     @Override
     protected boolean execute(TrackerManager trackerManager) {
         // 任务逻辑
@@ -132,17 +132,17 @@ public class MyBehavior extends BotBehavior {
     public MyBehavior() {
         super("my_behavior", "我的行为");
     }
-    
+
     @Override
     protected void enable() {
         // 启用逻辑
     }
-    
+
     @Override
     protected void disable() {
         // 禁用逻辑
     }
-    
+
     @Override
     protected void update() {
         // 每刻更新
@@ -157,13 +157,13 @@ public class MyTracker extends Tracker {
     public MyTracker() {
         super("my_tracker", "我的追踪器", true);
     }
-    
+
     @Override
     protected void enable() {}
-    
+
     @Override
     protected void disable() {}
-    
+
     @Override
     protected boolean updateData() {
         // 更新数据
