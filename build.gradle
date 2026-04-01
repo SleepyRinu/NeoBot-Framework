@@ -38,8 +38,20 @@ minecraft {
     }
 }
 
+repositories {
+    mavenCentral()
+    maven { url = 'https://maven.minecraftforge.net/' }
+    maven { url = 'https://maven.fabricmc.net/' }
+    // Baritone
+    maven { url = 'https://maven.cabaletta.org/' }
+}
+
 dependencies {
     implementation "net.neoforged:neoforge:21.1.77"
+    
+    // Baritone for 1.21.1
+    implementation 'baritone:baritone:1.21.1'
+    
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }

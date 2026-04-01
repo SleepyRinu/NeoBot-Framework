@@ -7,6 +7,7 @@ import com.ragenc.core.TaskRunner;
 import com.ragenc.core.TrackerManager;
 import com.ragenc.event.impl.BotInitializeEvent;
 import com.ragenc.event.impl.BotShutdownEvent;
+import com.ragenc.integration.IntegrationManager;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.DistExecutor;
@@ -52,6 +53,9 @@ public class NeoBot {
     
     /** 命令执行器 */
     private CommandExecutor commandExecutor;
+    
+    /** 集成管理器 */
+    private IntegrationManager integrationManager;
     
     /**
      * 构造函数 - NeoForge 入口点
@@ -112,6 +116,10 @@ public class NeoBot {
         // 创建框架核心（最后初始化，依赖其他组件）
         framework = new BotFramework(taskRunner, eventBus, trackerManager, commandExecutor);
         LOGGER.debug("BotFramework initialized");
+
+        // 创建集成管理器
+        integrationManager = new IntegrationManager(framework);
+        LOGGER.debug("IntegrationManager initialized");
         
         // 发送初始化事件
         eventBus.post(new BotInitializeEvent(framework));
@@ -154,6 +162,10 @@ public class NeoBot {
             
             // 注册命令
             commandExecutor.registerDefaultCommands();
+
+            // 初始化集成并注册集成命令
+            integrationManager.initialize();
+            integrationManager.registerCommands(commandExecutor);
             
             LOGGER.info("Client setup completed");
         });
@@ -240,4 +252,3 @@ public class NeoBot {
     public CommandExecutor getCommandExecutor() {
         return commandExecutor;
     }
-}
